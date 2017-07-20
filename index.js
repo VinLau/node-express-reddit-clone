@@ -82,7 +82,7 @@ app.use('/auth', authController(myReddit));
 
 /*
  This next middleware will allow us to serve static files, as if our web server was a file server.
- To do this, we attach the middleware to the /static URL path. This means any URL that starts with
+ To do this, we attach the middleware to the /static URL path. This means any URL that starts withvote
  /static will go thru this middleware. We setup the static middleware to look for files under the public
  directory which is at the root of the project. This basically "links" the public directory to a URL
  path called /static, and any files under /public can be requested by asking for them with /static
@@ -114,13 +114,35 @@ app.get('/subreddits', function(request, response) {
     1. Get all subreddits with RedditAPI
     2. Render some HTML that lists all the subreddits
      */
-    
     response.send("TO BE IMPLEMENTED");
 });
 
 // Subreddit homepage, similar to the regular home page but filtered by sub.
 app.get('/r/:subreddit', function(request, response) {
-    response.send("TO BE IMPLEMENTED");
+    var subredditNameGlob = "";
+    var subredditDescGlob = "";
+    myReddit.getSubredditByName(request.params.subreddit)
+        .then( function(resultSubredditSet) {
+            if (resultSubredditSet === null){
+                response.status(404).send("Subreddit NOT FOUND!");
+            }
+            var resultSubreddit = resultSubredditSet[0].id;
+            subredditNameGlob = resultSubredditSet[0].name;
+            subredditDescGlob =resultSubredditSet[0].description;
+            return resultSubreddit;
+        })
+        .then( function(resultSubredditSet) {
+            return myReddit.getAllPosts(resultSubredditSet);
+        })
+        .then( function(postsSubreddit) {
+            response.render('homepage.pug',
+                {
+                posts : postsSubreddit,
+                name  : subredditNameGlob,
+                desc  : subredditDescGlob
+                }
+            );
+        });
 });
 
 // Sorted home page

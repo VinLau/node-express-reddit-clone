@@ -23,7 +23,7 @@ module.exports = function(myReddit) {
             })
             .then(function(sessionToken){
                 response.cookie("SESSION", sessionToken);
-                console.log("sessionToken " + sessionToken);
+                // console.log("sessionToken " + sessionToken);
                 response.redirect(302, "/");
             })
     });

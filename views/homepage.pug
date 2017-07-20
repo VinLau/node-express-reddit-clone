@@ -2,8 +2,15 @@ extends layout.pug
 include mixins/post-list
 
 block title
-    title Welcome to Reddit Clone!!!
+    if name
+        title #{name} reddit
+    else
+        title Welcome to Reddit Clone!!!
 
 block content
-    h1 Welcome to Reddit!!!
+    if desc
+        h1 Welcome to #{name} subreddit!
+        p #{desc}
+    else
+        h1 Welcome to Reddit!!!
     +postList(posts)
