@@ -147,7 +147,21 @@ app.get('/r/:subreddit', function(request, response) {
 
 // Sorted home page
 app.get('/sort/:method', function(request, response) {
-    response.send("TO BE IMPLEMENTED");
+    if (request.params.method === "hot"){
+        myReddit.getAllPosts(false, "hot")
+            .then(function (posts){
+                response.render('homepage.pug', {posts: posts});
+            });
+    }
+    else if (request.params.method === "top"){
+        myReddit.getAllPosts(false, "top")
+            .then(function (posts){
+                response.render('homepage.pug', {posts: posts});
+            });
+    }
+    else {
+        response.redirect(404, '/');
+    }
 });
 
 app.get('/post/:postId', function(request, response) {

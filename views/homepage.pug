@@ -13,4 +13,7 @@ block content
         p #{desc}
     else
         h1 Welcome to Reddit!!!
+        a(href='/sort/hot') Hot posts
+        br
+        a(href='/sort/top') Top posts
     +postList(posts)
