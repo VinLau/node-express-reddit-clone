@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
 --
--- Host: 0.0.0.0    Database: reddit
+-- Host: 0.0.0.0    Database: redditDecode
 -- ------------------------------------------------------
 -- Server version	5.5.53-0ubuntu0.14.04.1
 
@@ -19,9 +19,9 @@
 -- Current Database: `reddit`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `reddit` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `redditDecode` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
-USE `reddit`;
+USE `redditDecode`;
 
 --
 -- Dumping data for table `comments`

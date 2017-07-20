@@ -1,0 +1,15 @@
+extends layout.pug
+
+block title
+    title Reddit Login
+
+block content
+    h1 Login
+        form(action="/auth/login" method="POST")
+            p
+                input(type="text" name="username")
+            p
+                input(type="password" name="password")
+            p
+                button(type="submit") Login!
+        form
