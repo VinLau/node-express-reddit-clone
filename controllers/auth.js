@@ -18,10 +18,12 @@ module.exports = function(myReddit) {
                 response.redirect(401);
             })
             .then( function(resultUserObj) {
-                myReddit.createUserSession(resultUserObj.id);
+                var userIdParam = resultUserObj.id; //remember we got the full Object, createUserSession works via id (ie a field)
+                return myReddit.createUserSession(userIdParam);
             })
-            .then(function(saltResponse){
-                response.cookie("SESSION", saltResponse);
+            .then(function(sessionToken){
+                response.cookie("SESSION", sessionToken);
+                console.log("sessionToken " + sessionToken);
                 response.redirect(302, "/");
             })
     });
