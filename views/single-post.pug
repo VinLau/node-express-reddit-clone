@@ -1,0 +1,18 @@
+extends layout.pug
+
+block title
+    title #{postTitle}
+
+block content
+    h3 Welcome to r/ #{postSubReddit}
+    p #{postSubreddit} #[strong subredddit Description] #{postSubDesc}
+        p postNumber #{postId}
+    h2
+        a(href=postUrl) #{postTitle}
+    h3 Posted By #{poster}
+    h4
+        ul
+            each comment in commentArray
+                li= comment.text
+                    ul
+                        li= 'posted at ' + comment.updatedAt + ' by ' + comment.user.username
