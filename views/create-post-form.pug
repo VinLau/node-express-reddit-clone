@@ -1,0 +1,24 @@
+extends layout.pug
+
+block title
+    title Post submission
+
+block content
+    h1 Share a new link!
+    form(method="POST" action="/createPost")
+        p Subreddit:
+            select(name="subredditId")
+                -var n = 1;
+                each subreddit in subreddits
+                    option(value=n) #{subreddit.name}
+                    - n++
+                    // NOTE: we accessed the object's property INSIDE the pug file! instead of parsing through the array in the index.js, so easy!
+        p URL:
+            input(type="text" name="url")
+        p Title:
+            input(type="text" name="title")
+        p
+            button(type="submit" value="Submit") Submit!
+
+
+

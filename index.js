@@ -165,7 +165,7 @@ app.get('/sort/:method', function(request, response) {
 });
 
 app.get('/post/:postId', function(request, response) {
-    response.send("TO BE IMPLEMENTED");
+
 });
 
 /*
@@ -183,12 +183,25 @@ app.post('/vote', onlyLoggedIn, function(request, response) {
 
 // This handler will send out an HTML form for creating a new post
 app.get('/createPost', onlyLoggedIn, function(request, response) {
-    response.send("TO BE IMPLEMENTED");
+    myReddit.getAllSubreddits()
+        .then(function(resultSet){
+            response.render('create-post-form.pug', {subreddits: resultSet});
+        });
 });
 
 // POST handler for form submissions creating a new post
-app.post('/createPost', onlyLoggedIn, function(request, response) {
-    response.send("TO BE IMPLEMENTED");
+app.post('/createPost', onlyLoggedIn, bodyParser.urlencoded({extended: false}), function(request, response) {
+    // console.log(request.loggedInUser.id); //NOTE: recall our check-login-token middleware that works by creating a loggedInUser Object we passed to it via getUserFromSession
+    var postObj = {};
+    postObj.userId = request.loggedInUser.id;
+    postObj.subredditId = request.body.subredditId;
+    postObj.title  = request.body.title;
+    postObj.url    = request.body.url;
+    console.log(request.body); //Recall that the POST form submits a query string with values in the input (plus the value in the option HTML tag)
+    myReddit.createPost(postObj)
+        .then(function(postIdResult){
+            response.redirect('/post/' + postIdResult); // " Use the newly created posts' ID to redirect them to /post/<postId>"
+        });
 });
 
 // Listen, added timer to know when server restarts (easier to debug and log)
