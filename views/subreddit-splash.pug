@@ -1,0 +1,13 @@
+extends layout.pug
+
+block title
+    title Subreddit List
+
+block content
+    ul
+        each subreddit in subreddits
+            h3
+                li
+                    a(href="/r/" + subreddit.name)=subreddit.name
+            h5
+                li= subreddit.description.substr(0, 150)

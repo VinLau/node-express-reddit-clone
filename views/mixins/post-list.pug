@@ -4,6 +4,9 @@ mixin postList(posts)
             li.post
                 h2
                     a(href=post.url, target="_blank")= post.title
+                        if post.url.match(/(^.*imgur.*\.gif.*$)|(^.*imgur.*\.gifv.*$)/gi)
+                            p GIPHY HERE
+                            iframe(src="https://imgur.com/xDv2hQK/embed" width="200" height="220" scrolling="no" style="border:none;")
                     p Submitted by
                         a(href="/u/" + post.user.username)= post.user.username
                         span  in

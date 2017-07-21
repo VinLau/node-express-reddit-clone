@@ -114,7 +114,10 @@ app.get('/subreddits', function(request, response) {
     1. Get all subreddits with RedditAPI
     2. Render some HTML that lists all the subreddits
      */
-    response.send("TO BE IMPLEMENTED");
+    myReddit.getSubreddits()
+        .then(function(resultSet){
+           response.render('subreddit-splash.pug', { subreddits: resultSet});
+        });
 });
 
 // Subreddit homepage, similar to the regular home page but filtered by sub.
@@ -196,7 +199,20 @@ This basically says: if there is a POST /vote request, first pass it thru the on
 middleware calls next(), then also pass it to the final request handler specified.
  */
 app.post('/vote', onlyLoggedIn, bodyParser.urlencoded({extended: false}), function(request, response) {
-    redditAPI.createVote()
+    var voteObj = {};
+    voteObj.postId = request.body.postId;
+    voteObj.voteDirection = parseInt(request.body.vote); //NOTE:NEED TO TURN STRING INTO NUM WHEN YOU RETRIEVE DATA FROM HTTP!!!
+    voteObj.userId = request.loggedInUser.id;
+    myReddit.createVote(voteObj)
+        .then(function(resultSet){
+            console.log(voteObj.userId + " votes " + voteObj.voteDirection)
+            //TODO: Ask TAs/Ziad where to redirect after voting!
+            response.redirect('back'); //NOTE: express 4.0+ supports 'back' which brings user to same page
+        })
+        .catch(function(err){
+           console.log("vote error " + err);
+           response.redirect(404, '/');
+        });
 });
 
 // This handler will send out an HTML form for creating a new post

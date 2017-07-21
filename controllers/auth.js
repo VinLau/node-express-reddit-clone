@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var onlyLoggedIn = require('../lib/only-logged-in.js');
 
 module.exports = function(myReddit) {
     var authController = express.Router();
@@ -27,6 +28,12 @@ module.exports = function(myReddit) {
                 response.redirect(302, "/");
             })
     });
+
+    authController.post('/logout', onlyLoggedIn, function(request, response){
+        myReddit.deleteSessionFromTable(request.loggedInUser);
+        response.clearCookie("SESSION");
+        response.redirect(302, "/");
+    })
     
     authController.get('/signup', function(request, response) {
         response.render('../views/signup-form.pug');

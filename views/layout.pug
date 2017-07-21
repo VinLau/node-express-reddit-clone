@@ -4,11 +4,15 @@ html
         meta(charset="utf-8")
         link(rel="stylesheet", href="/static/app.css")
         block title
-            title Redit Clone
+            title Reddit Clone
     body
         header
+            a(href="/subreddits") Subreddits
             if loggedInUser
                 p Welcome #{loggedInUser.username} Your cookie is #{loggedInUser.token}
+                p
+                    form(action="/auth/logout" method="post")
+                        button(type="submit") Logout
             else
                 ul
                     li
